@@ -178,20 +178,20 @@ jobs:
         make download -j8
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
-      
-    - name: Upload bin directory
-      uses: actions/upload-artifact@main
-      if: env.UPLOAD_BIN_DIR_FOR_ARTIFACT == 'true'
-      with:
-        name: OpenWrt_bin_${{matrix.target}}
-        path: openwrt/bin
-
+ 
     - name: Compile the firmware
       run: |
         cd openwrt
         echo -e "$(($(nproc)+1)) thread compile"
         make -j$(($(nproc)+1)) || make -j1 V=s
         echo "::set-env name=status::success"
+        
+    - name: Upload bin directory
+      uses: actions/upload-artifact@main
+      if: env.UPLOAD_BIN_DIR_FOR_ARTIFACT == 'true'
+      with:
+        name: OpenWrt_bin_${{matrix.target}}
+        path: openwrt/bin
 
     - name: Organize files
       id: organize
