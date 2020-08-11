@@ -183,7 +183,7 @@ jobs:
       run: |
         cd openwrt
         echo -e "$(($(nproc)+1)) thread compile"
-        make -j$(($(nproc)+1)) || make V=s
+        make -j$(($(nproc)+1)) || make -j1 V=s
         echo "::set-env name=status::success"
       
     - name: Upload bin directory
@@ -199,9 +199,11 @@ jobs:
         mkdir firmware && find openwrt/bin/*/*/*/ -maxdepth 1 \
         -name "*combined*" \
         -or -name "*sysupgrade.bin" \
+        -or -name "sha256sums" \
         | xargs -i mv -f {} ./firmware/
         cp openwrt/.config  ./firmware/${{matrix.target}}.config
         cd firmware
+        mv sha256sums ${{matrix.target}}_sha256sums
         rename -v "s/^openwrt/${{ env.date3 }}-openwrt/" *combined*
         rename -v "s/xiaomi_redmi-router/redmi/" *bin
         rename -v "s/^openwrt/${{ env.date3 }}-openwrt/" *bin
