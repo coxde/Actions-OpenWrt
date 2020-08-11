@@ -198,7 +198,6 @@ jobs:
       run: |
         mkdir firmware && find openwrt/bin/*/*/*/ -maxdepth 1 \
         -name "*combined*" \
-        # -or -name "*theme-edge*.ipk" \
         -or -name "*sysupgrade.bin" \
         | xargs -i mv -f {} ./firmware/
         cp openwrt/.config  ./firmware/${{matrix.target}}.config
