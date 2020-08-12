@@ -11,7 +11,6 @@ name: Openwrt-AutoBuild
 on:
   schedule:
     - cron: 0 20 * * 7
-  
   watch:
     types: started
 
