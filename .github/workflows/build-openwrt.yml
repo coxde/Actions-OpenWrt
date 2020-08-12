@@ -11,8 +11,8 @@ name: Openwrt-AutoBuild
 on:
   schedule:
     - cron: 0 20 * * 7
-  watch:
-    types: started
+  # watch:
+    # types: started
 
 env:
   REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
